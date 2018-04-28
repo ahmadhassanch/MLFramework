@@ -17,4 +17,4 @@ class NNLayer:
 		return self.outData
 		
 	def mPrint(self):
-		print 'I am Layer: ', self.name, ' - ', self.nlOut, self.nlIn
+		print self.name, ' - ', self.nlOut, self.nlIn

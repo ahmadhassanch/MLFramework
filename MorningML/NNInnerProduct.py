@@ -10,7 +10,8 @@ class NNInnerProduct(NNLayer):
 
 	def initWeights(self):
 		print self.name, "No Weights, biases"
-		self.W = NNData(self.nlOut, self.nlIn, 'RANDOM');
+		self.W = NNData(self.nlOut, self.nlIn);
+		self.W.rand();
 		self.B = NNData(self.nlOut, 1);
 		self.dw = NNData(self.nlOut, self.nlIn)
 		self.db = NNData(self.nlOut,1);
