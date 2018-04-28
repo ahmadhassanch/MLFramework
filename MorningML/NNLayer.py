@@ -8,7 +8,7 @@ class NNLayer:
 		self.nlIn = nlIn
 		self.outData = 'UnInitialized OutData';
 
-	def init(self):
+	def initWeights(self):
 		print self.name, ": No Weights, biases"
 
 	def forward(self, inData):

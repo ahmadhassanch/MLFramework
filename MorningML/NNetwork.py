@@ -11,12 +11,12 @@ class NNetwork:
 		self.numLayers = len(self.layers)
 		return layer.nlOut
 
-	def init(self):
+	def initWeights(self):
 		print '=================================================='
 		print 'Doing Network Initialization of Weights and Biases'
 		print '=================================================='
 		for i in range(self.numLayers):
-			self.layers[i].init();
+			self.layers[i].initWeights();
 
 	def forward(self, inData):
 		print '=================================================='

@@ -19,7 +19,6 @@ def main():
 	layer = NNInnerProduct('InnerProduct1', 4, inputDim);
 	d = net.addLayer(layer);
 
-	
 	layer = NNRelu('NNRelu1', d, d);
 	d = net.addLayer(layer);
 
@@ -30,7 +29,7 @@ def main():
 	net.addLayer(layer);
 	
 
-	net.init();
+	net.initWeights();
 
 	net.forward(refDataX);
 
