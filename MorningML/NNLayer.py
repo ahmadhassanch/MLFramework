@@ -2,11 +2,17 @@ from NNData import NNData
 
 class NNLayer:
 
-	def __init__(self, network, name, nlOut, nlIn):
+	def __init__(self, network, name, nlOut):
 		self.name = name;
 		self.network = network
 		self.nlOut = nlOut
-		self.nlIn = nlIn
+
+		if len(network.layers)>0:
+			nlIn = network.layers[-1].nlOut
+			print 'inputs = ', nlIn 
+			self.nlIn = nlIn
+		else:
+			self.nlIn = -1;
 		self.outData = 'UnInitialized OutData';
 
 	def initWeights(self):

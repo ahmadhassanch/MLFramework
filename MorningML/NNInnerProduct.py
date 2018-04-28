@@ -4,8 +4,8 @@ from NNData import NNData
 
 
 class NNInnerProduct(NNLayer):
-	def __init__(self, network, name, nlOut, nlIn):
-		NNLayer.__init__(self, network, name, nlOut, nlIn)
+	def __init__(self, network, name, nlOut):
+		NNLayer.__init__(self, network, name, nlOut)
 
 
 	def initWeights(self):
