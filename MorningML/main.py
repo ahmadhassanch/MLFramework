@@ -37,7 +37,6 @@ def main():
 	layer = NNSigmoid('NNSigmoid1', d, d);
 	net.addLayer(layer);
 	
-
 	net.initWeights();
 
 	net.forward(refDataX);
