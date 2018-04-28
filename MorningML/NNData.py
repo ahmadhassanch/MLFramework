@@ -19,6 +19,12 @@ class NNData():
 		tempObj.data = c;
 		return tempObj;
 
+	def __add__(self, B):
+		c = np.add(self.data, B.data);
+		tempObj = NNData(c.shape[0], c.shape[1]);
+		tempObj.data = c;
+		return tempObj;
+
 	def mPrint(self):
 		print 'test12'
 		print self.data
