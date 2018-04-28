@@ -6,14 +6,15 @@ class NNLayer:
 		self.name = name;
 		self.network = network
 		self.nlOut = nlOut
-		network.addLayer(self);
 
 		if len(network.layers)>0:
 			nlIn = network.layers[-1].nlOut
-			print 'inputs = ', nlIn 
+			#print 'inputs = ', nlIn 
 			self.nlIn = nlIn
 		else:
 			self.nlIn = -1;
+
+		network.addLayer(self);
 		self.outData = 'UnInitialized OutData';
 
 

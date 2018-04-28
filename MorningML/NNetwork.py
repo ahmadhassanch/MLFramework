@@ -25,6 +25,8 @@ class NNetwork:
 		outData = inData;
 		for i in range(self.numLayers):
 			outData = self.layers[i].forward(outData);
+			print self.layers[i].name, '=='
+			#outData.mPrint()
 
 
 

@@ -9,6 +9,12 @@ class NNData():
 	def rand(self):
 		self.data = np.random.rand(self.rows, self.columns)
 
+	def ones(self):
+		self.data = np.ones((self.rows, self.columns))
 
 	def mPrint(self):
+		print 'test12'
 		print self.data
+		print 'test22'
+		#exit()
+
