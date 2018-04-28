@@ -5,19 +5,19 @@ class NNInnerProduct(NNLayer):
 	def __init__(self, name, nlOut, nlIn):
 		NNLayer.__init__(self, name, nlOut, nlIn)
 
-		self.dw = np.zeros((nlOut, nlIn))
-		self.db = np.zeros((nlOut,1));
 
 	def init(self):
-		print self.name, "No Weights, biases".py
-		self.weights = np.random.randn(self.nlOut, self.nlIn);
-		self.bias    = np.random.randn(self.nlOut, 1);
-		print self.weights
+		print self.name, "No Weights, biases"
+		self.W = np.random.randn(self.nlOut, self.nlIn);
+		self.B = np.random.randn(self.nlOut, 1);
+		self.dw = np.zeros((self.nlOut, self.nlIn))
+		self.db = np.zeros((self.nlOut,1));
+		print self.W
 
 	def forward(self, inData):
 		self.mPrint()
-		print self.weights.shape
-		print self.bias.shape
+		print self.W.shape
+		print self.B.shape
 		outData = inData;
 		return outData
 
