@@ -2,8 +2,9 @@ from NNData import NNData
 
 class NNLayer:
 
-	def __init__(self, name, nlOut, nlIn):
+	def __init__(self, network, name, nlOut, nlIn):
 		self.name = name;
+		self.network = network
 		self.nlOut = nlOut
 		self.nlIn = nlIn
 		self.outData = 'UnInitialized OutData';

@@ -22,19 +22,19 @@ def main():
 
 	net = NNetwork();
 
-	layer = NNInput('Input0', 3, -1);
+	layer = NNInput(net, 'Input0', inputDim, -1);
 	d = net.addLayer(layer);
 
-	layer = NNInnerProduct('InnerProduct1', 3, inputDim);
+	layer = NNInnerProduct(net, 'InnerProduct1', 3, inputDim);
 	d = net.addLayer(layer);
 
-	layer = NNRelu('NNRelu1', d, d);
+	layer = NNRelu(net, 'NNRelu1', d, d);
 	d = net.addLayer(layer);
 
-	layer = NNInnerProduct('InnerProduct2', 1, d);
+	layer = NNInnerProduct(net, 'InnerProduct2', 1, d);
 	d = net.addLayer(layer);
 
-	layer = NNSigmoid('NNSigmoid1', d, d);
+	layer = NNSigmoid(net, 'NNSigmoid1', d, d);
 	net.addLayer(layer);
 	
 	net.initWeights();
