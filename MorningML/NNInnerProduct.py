@@ -2,7 +2,7 @@ import numpy as np
 from NNLayer import NNLayer
 from NNData import NNData
 
-
+#
 class NNInnerProduct(NNLayer):
 	def __init__(self, network, name, nlOut):
 		NNLayer.__init__(self, network, name, nlOut)
