@@ -12,6 +12,13 @@ class NNData():
 	def ones(self):
 		self.data = np.ones((self.rows, self.columns))
 
+
+	def __mul__(self, B):
+		c = np.matmul(self.data, B.data);
+		tempObj = NNData(c.shape[0], c.shape[1]);
+		tempObj.data = c;
+		return tempObj;
+
 	def mPrint(self):
 		print 'test12'
 		print self.data
