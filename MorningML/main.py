@@ -6,20 +6,20 @@ from NNRelu import NNRelu
 from NNSigmoid import NNSigmoid
 
 def main():
-	print 'test'
+	print '\n'
 	inputDim = 2;
 	outputDim = 1;
 	m = 5;
 
-	refX = np.zeros((inputDim, m));
-	refY = np.zeros((outputDim, m));
+	refDataX = NNData(inputDim, m);
+	refDataY = NNData(outputDim, m);
 
 	net = NNetwork();
 
 	layer = NNInnerProduct('InnerProduct1', 4, inputDim);
 	d = net.addLayer(layer);
 
-	'''
+	
 	layer = NNRelu('NNRelu1', d, d);
 	d = net.addLayer(layer);
 
@@ -28,9 +28,11 @@ def main():
 
 	layer = NNSigmoid('NNSigmoid1', d, d);
 	net.addLayer(layer);
-	'''
-	#net.createOutputData(refX);
-	net.forward(refX);
+	
+
+	net.init();
+
+	net.forward(refDataX);
 
 main();
 

@@ -6,12 +6,15 @@ class NNLayer:
 		self.name = name;
 		self.nlOut = nlOut
 		self.nlIn = nlIn
+		self.outData = 'UnInitialized OutData';
 
-	def forward(self):
-		print 'Forward Prop Layer: ', self.name
+	def init(self):
+		print self.name, ": No Weights, biases"
 
-	def createInputData(self):
+	def forward(self, inData):
 		print 'creating input Data', self.name
+		self.outData = inData;
+		return self.outData
 		
 	def mPrint(self):
 		print 'I am Layer: ', self.name, ' - ', self.nlOut, self.nlIn
