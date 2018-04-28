@@ -6,6 +6,7 @@ class NNLayer:
 		self.name = name;
 		self.network = network
 		self.nlOut = nlOut
+		network.addLayer(self);
 
 		if len(network.layers)>0:
 			nlIn = network.layers[-1].nlOut
@@ -14,6 +15,7 @@ class NNLayer:
 		else:
 			self.nlIn = -1;
 		self.outData = 'UnInitialized OutData';
+
 
 	def initWeights(self):
 		print self.name, ": No Weights, biases"
