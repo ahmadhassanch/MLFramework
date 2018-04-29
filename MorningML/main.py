@@ -16,7 +16,7 @@ def main():
 	refX = (np.random.rand(2,m)*10).round();
 	refY = (np.random.rand(1,m)*1).round();
 
-	refDataX.data = v;
+	refDataX.data = refX;
 	refDataX.mPrint()
 	
 	net    = NNetwork();
