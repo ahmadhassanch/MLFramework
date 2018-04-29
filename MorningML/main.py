@@ -5,10 +5,9 @@ from NNInput import NNInput
 from NNInnerProduct import NNInnerProduct
 from NNRelu import NNRelu
 from NNSigmoid import NNSigmoid
+import scipy.io as sio
 
 def main():
-	print '\n'
-
 	m = 3;
 
 	refDataX = NNData(2, m);
@@ -34,6 +33,7 @@ def main():
 	net.computeLoss(refDataY)
 
 	net.backprop(refDataY);
+
 	#layer0.outData.mPrint();
 	#layer1.outData.mPrint();
 

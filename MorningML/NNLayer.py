@@ -9,14 +9,13 @@ class NNLayer:
 
 		if len(network.layers)>0:
 			nlIn = network.layers[-1].nlOut
-			#print 'inputs = ', nlIn 
 			self.nlIn = nlIn
 		else:
 			self.nlIn = -1;
 
 		network.addLayer(self);
 		self.outData = 'UnInitialized OutData';
-		print "Constructor", self.name
+		print "Constructor Called For", self.name
 
 
 	def initWeights(self):
@@ -25,6 +24,8 @@ class NNLayer:
 	def forward(self, inData):
 		print 'creating input Data', self.name
 		
+	def backprop(self, dL):
+		print '<< back propagating', self.name
 		
 	def mPrint(self):
 		print self.name, ' - ', self.nlOut, self.nlIn

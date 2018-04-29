@@ -4,11 +4,9 @@ class NNetwork:
 	def __init__(self):
 		self.name = "NNetwork"
 		self.layers = [];
-		self.numLayers = len(self.layers)
 
 	def addLayer(self, layer):
 		self.layers.append(layer);
-		self.numLayers = len(self.layers)
 		return layer.nlOut
 
 	def initWeights(self):
@@ -28,7 +26,6 @@ class NNetwork:
 			outData = layer.forward(outData);
 			outData.mPrint()
 
-
 	def computeLoss(self, refY):
 		print '\n=========== Computing LOSS ============'
 
@@ -39,7 +36,7 @@ class NNetwork:
 		outData = inData;
 		for layer in reversed(self.layers):
 			print '\n<<===>>', layer.name, '<<===>>'
-			#outData = layer.forward(outData);
+			layer.backprop(outData);
 			#outData.mPrint()
 
 	def mPrint(self):
