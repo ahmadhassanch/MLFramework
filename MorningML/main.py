@@ -8,25 +8,31 @@ from NNSigmoid import NNSigmoid
 import scipy.io as sio
 
 
-def genData():
-	refX = (np.random.rand(2,m)*10).round();
+def genAndSaveData(numIn, m):
+	refX = (np.random.rand(numIn,m)*10).round();
 	refY = (np.random.rand(1,m)*1).round();
-	refDataX.data = refX;
-	refDataY.data = refY;
 	sio.savemat("refData", {'refX':refX, 'refY':refY})
+	return refX, refY
 
+def loadData():
+	mDict = sio.loadmat("refData")
+	return mDict['refX'], mDict['refY']
 
 def main():
 	m = 3;
+	numInputs = 2;
 
-	refDataX = NNData(2, m);
+	#refX, refY = genAndSaveData(numInputs, m)	
+	refX, refY = loadData()	
+
+	refDataX = NNData(numInputs, m);
 	refDataY = NNData(1, m);
-	
-	genData(refDataX, refDataY)	
-		
+	refDataX.data = refX;
+	refDataY.data = refY;
+
+	refDataX.mPrint()
 	refDataY.mPrint()
-	exit()
-	
+
 	net    = NNetwork();
 	layer0 = NNInput(net, 'Input0', 2);
 	
@@ -37,11 +43,9 @@ def main():
 	layer4 = NNSigmoid(net, 'NNSigmoid1', 1);
 	
 	net.initWeights();
-
 	net.forward(refDataX);
-
+	print '==============================forward done=============================='
 	net.computeLoss(refDataY)
-
 	net.backprop(refDataY);
 
 	#layer0.outData.mPrint();

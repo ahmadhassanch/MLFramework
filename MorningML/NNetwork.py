@@ -22,11 +22,17 @@ class NNetwork:
 		print '=================================================='
 		outData = inData;
 		for layer in self.layers:
-			print '\n===>>', layer.name, '<<==='
+			print '\n===>>', layer.name, '<<=== ', (layer.nlOut, layer.nlIn)
 			outData = layer.forward(outData);
 			outData.mPrint()
+		exit()
 
-	def computeLoss(self, refY):
+	def computeLoss(self, yRefData):
+		y = self.layers[-1].outData.data;
+		yRef = yRefData.data;
+		print y
+		print yRef
+		exit()
 		print '\n=========== Computing LOSS ============'
 
 	def backprop(self, inData):
