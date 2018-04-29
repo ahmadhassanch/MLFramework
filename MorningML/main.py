@@ -30,6 +30,10 @@ def main():
 	net.initWeights();
 
 	net.forward(refDataX);
+
+	net.computeLoss(refDataY)
+
+	net.backprop(refDataY);
 	#layer0.outData.mPrint();
 	#layer1.outData.mPrint();
 
