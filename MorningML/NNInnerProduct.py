@@ -2,11 +2,9 @@ import numpy as np
 from NNLayer import NNLayer
 from NNData import NNData
 
-#
 class NNInnerProduct(NNLayer):
 	def __init__(self, network, name, nlOut):
 		NNLayer.__init__(self, network, name, nlOut)
-
 
 	def initWeights(self):
 		print self.name, "Initializing Weights, biases"
@@ -21,14 +19,8 @@ class NNInnerProduct(NNLayer):
 		self.W.mPrint();
 		self.B.mPrint();
 
-	def forward(self, inData):
-		#NNLayer.forward(self, inData);
-		#self.W.mPrint()
-		#inData.mPrint()	
-		
-		self.outData = self.W * inData + self.B;
-		#self.outData.mPrint()	
-		#exit()
+	def forward(self, X):		
+		self.outData = self.W * X + self.B;
 		return self.outData
 
 
