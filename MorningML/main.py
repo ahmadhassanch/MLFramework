@@ -5,7 +5,7 @@ from NNInput import NNInput
 from NNInnerProduct import NNInnerProduct
 from NNRelu import NNRelu
 from NNSigmoid import NNSigmoid
-import scipy.io as sio
+import scipy
 
 def main():
 	m = 3;
@@ -15,6 +15,8 @@ def main():
 	
 	refX = (np.random.rand(2,m)*10).round();
 	refY = (np.random.rand(1,m)*1).round();
+
+	scipy.io.savemat("refData", {refX:refX, refY, refY})
 
 	refDataX.data = refX;
 	refDataX.mPrint()
