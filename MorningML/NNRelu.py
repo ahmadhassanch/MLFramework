@@ -1,10 +1,8 @@
 from NNLayer import NNLayer
+from NNActivation import NNActivation
 
-class NNRelu(NNLayer):
-	def __init__(self, network, name, nlOut):
-		NNLayer.__init__(self, network, name, nlOut)
-
+class NNRelu(NNActivation):
+			
 	def forward(self, inData):
-		self.mPrint()
-		self.outData = inData;
+		self.outData = inData.relu();
 		return self.outData

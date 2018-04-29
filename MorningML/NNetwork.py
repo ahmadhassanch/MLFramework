@@ -24,15 +24,11 @@ class NNetwork:
 		print '=================================================='
 		outData = inData;
 		for i in range(self.numLayers):
+			print '\n===>>', self.layers[i].name, '<<==='
 			outData = self.layers[i].forward(outData);
-			print self.layers[i].name, '=='
-			#outData.mPrint()
-
-
+			outData.mPrint()
 
 	def mPrint(self):
-		print 'I am Network', self.name;
-
 		print 'And I have', len(self.layers), 'layers'
 		for i in range(self.numLayers):
 			self.layers[i].mPrint();

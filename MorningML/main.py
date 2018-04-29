@@ -8,28 +8,31 @@ from NNSigmoid import NNSigmoid
 
 def main():
 	print '\n'
-	inputDim = 2;
-	outputDim = 1;
+
 	m = 3;
 
-	refDataX = NNData(inputDim, m);
-	refDataY = NNData(outputDim, m);
+	refDataX = NNData(2, m);
+	refDataY = NNData(1, m);
 	
-	refDataX.data[0,:] = [1,2,3];
-	refDataX.data[1,:] = [1,1,2];
+	v = (np.random.rand(2,m)*10).round();
+	refDataX.data = v;
 	refDataX.mPrint()
-	net   = NNetwork();
-	layer = NNInput(net, 'Input0', inputDim);
 	
-	layer = NNInnerProduct(net, 'InnerProduct1', 3);
-	layer = NNRelu(net, 'NNRelu1', 3);
+	net    = NNetwork();
+	layer0 = NNInput(net, 'Input0', 2);
 	
-	layer = NNInnerProduct(net, 'InnerProduct2', outputDim);
-	layer = NNSigmoid(net, 'NNSigmoid1', outputDim);
+	layer1 = NNInnerProduct(net, 'InnerProduct1', 4);
+	layer2 = NNRelu(net, 'NNRelu1', 4);
+	
+	layer3 = NNInnerProduct(net, 'InnerProduct2', 1);
+	layer4 = NNSigmoid(net, 'NNSigmoid1', 1);
 	
 	net.initWeights();
 
 	net.forward(refDataX);
+	#layer0.outData.mPrint();
+	#layer1.outData.mPrint();
+
 
 main();
 

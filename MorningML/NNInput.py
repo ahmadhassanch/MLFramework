@@ -5,7 +5,5 @@ class NNInput(NNLayer):
 		NNLayer.__init__(self, network, name, nlOut)
 
 	def forward(self, inData):
-		self.mPrint()
-		#print inData.data
 		self.outData = inData;
 		return self.outData

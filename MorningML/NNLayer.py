@@ -16,6 +16,7 @@ class NNLayer:
 
 		network.addLayer(self);
 		self.outData = 'UnInitialized OutData';
+		print "Constructor", self.name
 
 
 	def initWeights(self):
@@ -23,8 +24,7 @@ class NNLayer:
 
 	def forward(self, inData):
 		print 'creating input Data', self.name
-		self.outData = inData;
-		return self.outData
+		
 		
 	def mPrint(self):
 		print self.name, ' - ', self.nlOut, self.nlIn

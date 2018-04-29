@@ -1,7 +1,10 @@
 
 from NNLayer import NNLayer
+from NNActivation import NNActivation
 
-class NNSigmoid(NNLayer):
-	def __init__(self, network, name, nlOut):
-		NNLayer.__init__(self, network, name, nlOut)
+class NNSigmoid(NNActivation):
+
+	def forward(self, inData):
+		self.outData = inData.sigmoid();
+		return self.outData
 
