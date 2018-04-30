@@ -1,10 +1,10 @@
 import numpy as np
 from NNetwork import NNetwork
 from NNData import NNData
-from NNInput import NNInput
+from NNLayer import NNInput
 from NNInnerProduct import NNInnerProduct
-from NNRelu import NNRelu
-from NNSigmoid import NNSigmoid
+from NNActivation import NNRelu
+from NNActivation import NNSigmoid
 import scipy.io as sio
 
 
@@ -19,7 +19,7 @@ def loadData():
 	return mDict['refX'], mDict['refY']
 
 def main():
-	m = 3;
+	m = 5;
 	numInputs = 2;
 
 	#refX, refY = genAndSaveData(numInputs, m)	
@@ -45,8 +45,10 @@ def main():
 	net.initWeights();
 	net.forward(refDataX);
 	print '==============================forward done=============================='
-	net.computeLoss(refDataY)
-	net.backprop(refDataY);
+	
+	y, yHat, loss = net.computeLoss(refDataY)
+	
+	net.backprop(y, yHat);
 
 	#layer0.outData.mPrint();
 	#layer1.outData.mPrint();

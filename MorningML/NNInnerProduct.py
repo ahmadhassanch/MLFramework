@@ -10,8 +10,6 @@ class NNInnerProduct(NNLayer):
 		print self.name, "Initializing Weights, biases"
 		self.W = NNData(self.nlOut, self.nlIn);
 		self.B = NNData(self.nlOut, 1);
-		self.dw = NNData(self.nlOut, self.nlIn)
-		self.db = NNData(self.nlOut,1);
 		self.W.rand();
 		#self.W.ones();
 		#self.B.data[0,0]=10;
@@ -23,4 +21,11 @@ class NNInnerProduct(NNLayer):
 		self.outData = self.W * X + self.B;
 		return self.outData
 
-
+	def backprop(self, dGlobal):
+		m = dGlobal.shape[1];
+		W = self.W.data;
+		dGlobalNew = 1.0/m * np.matmul(W.T, dGlobal);
+		#elf.dw = NNData(self.nlOut, self.nlIn)
+		#elf.db = NNData(self.nlOut,1);
+	
+		return dGlobalNew

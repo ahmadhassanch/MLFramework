@@ -1,3 +1,4 @@
+import numpy as np
 
 class NNetwork:
 
@@ -25,24 +26,37 @@ class NNetwork:
 			print '\n===>>', layer.name, '<<=== ', (layer.nlOut, layer.nlIn)
 			outData = layer.forward(outData);
 			outData.mPrint()
-		exit()
+		#exit()
 
 	def computeLoss(self, yRefData):
-		y = self.layers[-1].outData.data;
-		yRef = yRefData.data;
-		print y
-		print yRef
-		exit()
 		print '\n=========== Computing LOSS ============'
+		yHat = self.layers[-1].outData.data;
+		y = yRefData.data;
+		#print y
+		#print yRef
+		loss = - y * np.log(yHat) - (1-y) * np.log(1-yHat)
+		print loss
+		m = y.shape[1];
+		print m
+		J= 1.0/m*np.sum(loss);
+		print J
+		print loss.shape 
+		return y, yHat, loss
+		
 
-	def backprop(self, inData):
+	def backprop(self, y, yHat):
 		print '=================================================='
-		print '>>>>>>>>>>>>>> Forward Network <<<<<<<<<<<<<<<<<<<'
+		print '>>>>>>>>>>>>>> Backward Network <<<<<<<<<<<<<<<<<<<'
 		print '=================================================='
-		outData = inData;
+
+		dA = -y / yHat - (1-y) / (1-yHat)
+		print dA
+		dGlobal = dA;
 		for layer in reversed(self.layers):
 			print '\n<<===>>', layer.name, '<<===>>'
-			layer.backprop(outData);
+			dGlobal = layer.backprop(dGlobal);
+			print dGlobal
+			
 			#outData.mPrint()
 
 	def mPrint(self):

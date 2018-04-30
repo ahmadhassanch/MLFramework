@@ -26,6 +26,16 @@ class NNLayer:
 		
 	def backprop(self, dL):
 		print '<< back propagating', self.name
+		return dL
 		
 	def mPrint(self):
 		print self.name, ' - ', self.nlOut, self.nlIn
+
+
+class NNInput(NNLayer):
+	def __init__(self, network, name, nlOut):
+		NNLayer.__init__(self, network, name, nlOut)
+
+	def forward(self, inData):
+		self.outData = inData;
+		return self.outData
