@@ -29,8 +29,12 @@ class NNRelu(NNActivation):
 		return self.outData
 
 	def backprop(self, dGlobal):
-		print '<< back propagating', self.name
-
-		return dGlobal
+		#print '<< back propagating', self.name
+		y = self.outData.data;
+		dLocal = y;
+		dLocal[y<=0] = 0;
+		dLocal[y>0] = 1;
+		dGlobalNew = dLocal * dGlobal;
+		return dGlobalNew
 
 		

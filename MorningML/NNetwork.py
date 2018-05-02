@@ -18,46 +18,51 @@ class NNetwork:
 			layer.initWeights();
 
 	def forward(self, inData):
-		print '=================================================='
-		print '>>>>>>>>>>>>>> Forward Network <<<<<<<<<<<<<<<<<<<'
-		print '=================================================='
+		#print '=================================================='
+		#print '>>>>>>>>>>>>>> Forward Network <<<<<<<<<<<<<<<<<<<'
+		#print '=================================================='
 		outData = inData;
 		for layer in self.layers:
-			print '\n===>>', layer.name, '<<=== ', (layer.nlOut, layer.nlIn)
+			#print '\n===>>', layer.name, '<<=== ', (layer.nlOut, layer.nlIn)
 			outData = layer.forward(outData);
-			outData.mPrint()
+			#outData.mPrint()
 		#exit()
 
 	def computeLoss(self, yRefData):
-		print '\n=========== Computing LOSS ============'
+		#print '\n=========== Computing LOSS ============'
 		yHat = self.layers[-1].outData.data;
 		y = yRefData.data;
 		#print y
 		#print yRef
-		loss = - y * np.log(yHat) - (1-y) * np.log(1-yHat)
-		print loss
+		loss = - (y * np.log(yHat) + (1-y) * np.log(1-yHat))
+		#print loss
 		m = y.shape[1];
-		print m
+		#print m
 		J= 1.0/m*np.sum(loss);
-		print J
-		print loss.shape 
+		print "J =================================================== J = ", J
+		#print loss.shape 
 		return y, yHat, loss
 		
 
 	def backprop(self, y, yHat):
-		print '=================================================='
-		print '>>>>>>>>>>>>>> Backward Network <<<<<<<<<<<<<<<<<<<'
-		print '=================================================='
+		#print '=================================================='
+		#print '>>>>>>>>>>>>>> Backward Network <<<<<<<<<<<<<<<<<<<'
+		#print '=================================================='
 
-		dA = -y / yHat - (1-y) / (1-yHat)
-		print dA
+		dA = -y / yHat + (1-y) / (1-yHat)
+		#print dA
 		dGlobal = dA;
 		for layer in reversed(self.layers):
-			print '\n<<===>>', layer.name, '<<===>>'
+			#print '\n<<===>>', layer.name, '<<===>>'
 			dGlobal = layer.backprop(dGlobal);
-			print dGlobal
-			
+			#print dGlobal
+
 			#outData.mPrint()
+
+	def gradientDescent(self, alpha):
+
+		for layer in self.layers:
+			layer.gradientDescent(alpha);
 
 	def mPrint(self):
 		print 'And I have', len(self.layers), 'layers'

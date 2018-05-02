@@ -14,18 +14,36 @@ class NNInnerProduct(NNLayer):
 		#self.W.ones();
 		#self.B.data[0,0]=10;
 		#print self.W.data.shape;
+		self.dW = NNData(self.nlOut, self.nlIn);
+		self.dB = NNData(self.nlOut, 1);
+		
 		self.W.mPrint();
 		self.B.mPrint();
 
 	def forward(self, X):		
 		self.outData = self.W * X + self.B;
+		self.X = X.data;
 		return self.outData
 
 	def backprop(self, dGlobal):
 		m = dGlobal.shape[1];
 		W = self.W.data;
-		dGlobalNew = 1.0/m * np.matmul(W.T, dGlobal);
-		#elf.dw = NNData(self.nlOut, self.nlIn)
-		#elf.db = NNData(self.nlOut,1);
-	
+		dGlobalNew = np.matmul(W.T, dGlobal);
+		self.dW.data = (1.0/m)*np.matmul(dGlobal, self.X.T)
+		
+		self.dB.data = (1.0/m)*np.sum(dGlobal, axis=1, keepdims=True);
+		#print type(self.dB.data)
+		#exit()
 		return dGlobalNew
+
+	def gradientDescent(self, alpha):
+		W = self.W.data;
+		B = self.B.data;
+		#print self.dW.data;
+		#print type(self.dW.data)
+		
+		#exit()
+		W = W - alpha * self.dW.data;
+		B = B - alpha * self.dB.data;
+		self.W.data = W;
+		self.B.data = B;

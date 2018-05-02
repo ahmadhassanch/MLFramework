@@ -19,14 +19,20 @@ class NNLayer:
 
 
 	def initWeights(self):
-		print self.name, ": No Weights, biases"
+		#print self.name, ": No Weights, biases"
+		pass
 
 	def forward(self, inData):
-		print 'creating input Data', self.name
+		#print 'creating input Data', self.name
+		pass
 		
 	def backprop(self, dL):
-		print '<< back propagating', self.name
+		#print '<< back propagating', self.name
 		return dL
+
+	def gradientDescent(self, alpha):
+		pass
+		#print '<< update Gradients', self.name
 		
 	def mPrint(self):
 		print self.name, ' - ', self.nlOut, self.nlIn

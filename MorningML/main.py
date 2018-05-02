@@ -39,16 +39,32 @@ def main():
 	layer1 = NNInnerProduct(net, 'InnerProduct1', 4);
 	layer2 = NNRelu(net, 'NNRelu1', 4);
 	
+
+	layer1 = NNInnerProduct(net, 'InnerProduct1', 14);
+	layer2 = NNRelu(net, 'NNRelu1', 14);
+
+	layer1 = NNInnerProduct(net, 'InnerProduct1', 4);
+	layer2 = NNRelu(net, 'NNRelu1', 4);
+
+
 	layer3 = NNInnerProduct(net, 'InnerProduct2', 1);
 	layer4 = NNSigmoid(net, 'NNSigmoid1', 1);
 	
 	net.initWeights();
-	net.forward(refDataX);
-	print '==============================forward done=============================='
 	
-	y, yHat, loss = net.computeLoss(refDataY)
-	
-	net.backprop(y, yHat);
+	alpha = 0.3;
+	for i in range(10000):
+		print '==============================forward============================== ', i
+		net.forward(refDataX);
+		
+		
+		#print '==============================computeLoss============================== ', i
+		y, yHat, loss = net.computeLoss(refDataY)
+		#print '==============================backprop	============================== ', i
+		net.backprop(y, yHat);
+		#print '==============================gradientDescent	============================== ', i
+		net.gradientDescent(alpha);
+
 
 	#layer0.outData.mPrint();
 	#layer1.outData.mPrint();
