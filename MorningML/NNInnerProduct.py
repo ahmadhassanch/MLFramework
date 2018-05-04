@@ -41,6 +41,7 @@ class NNInnerProduct(NNLayer):
 
 	def forward(self, X):		
 		self.outData = self.W * X + self.B;
+		#self.W.mPrint()
 		self.X = X.data;
 		return self.outData
 
