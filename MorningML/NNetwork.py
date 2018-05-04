@@ -24,9 +24,11 @@ class NNetwork:
 		outData = inData;
 		for layer in self.layers:
 			#print '\n===>>', layer.name, '<<=== ', (layer.nlOut, layer.nlIn)
+			#print outData.data.shape
 			outData = layer.forward(outData);
 			#outData.mPrint()
 		#exit()
+		return outData.data
 
 	def computeLoss(self, yRefData):
 		#print '\n=========== Computing LOSS ============'
@@ -41,7 +43,7 @@ class NNetwork:
 		J= 1.0/m*np.sum(loss);
 		print "J =================================================== J = ", J
 		#print loss.shape 
-		return y, yHat, loss
+		return y, yHat, loss, J
 		
 
 	def backprop(self, y, yHat):
@@ -60,9 +62,22 @@ class NNetwork:
 			#outData.mPrint()
 
 	def gradientDescent(self, alpha):
-
 		for layer in self.layers:
 			layer.gradientDescent(alpha);
+
+	def saveWeights(self):
+		for layer in self.layers:
+			layer.saveWeights();
+
+
+	def loadWeights(self):
+		for layer in self.layers:
+			layer.loadWeights();
+
+	def restorePivot(self):
+		for layer in self.layers:
+			layer.restorePivot();
+
 
 	def mPrint(self):
 		print 'And I have', len(self.layers), 'layers'

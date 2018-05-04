@@ -22,6 +22,19 @@ class NNLayer:
 		#print self.name, ": No Weights, biases"
 		pass
 
+	def saveWeights(self):
+		#print self.name, ": No Weights, biases"
+		pass
+
+	def loadWeights(self):
+		#print self.name, ": No Weights, biases"
+		pass
+
+	def restorePivot(self):
+		pass
+
+
+
 	def forward(self, inData):
 		#print 'creating input Data', self.name
 		pass

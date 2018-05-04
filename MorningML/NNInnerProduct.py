@@ -1,6 +1,7 @@
 import numpy as np
 from NNLayer import NNLayer
 from NNData import NNData
+import scipy.io as sio
 
 class NNInnerProduct(NNLayer):
 	def __init__(self, network, name, nlOut):
@@ -16,9 +17,27 @@ class NNInnerProduct(NNLayer):
 		#print self.W.data.shape;
 		self.dW = NNData(self.nlOut, self.nlIn);
 		self.dB = NNData(self.nlOut, 1);
+
+		self.pW = NNData(self.nlOut, self.nlIn);
+		self.pB = NNData(self.nlOut, 1);
 		
-		self.W.mPrint();
-		self.B.mPrint();
+		#self.W.mPrint();
+		#self.B.mPrint();
+
+	def saveWeights(self):
+		sio.savemat(self.name+".mat", {'W':self.W.data, 'B':self.B.data})
+		#print self.name, ": No Weights, biases"
+		
+
+	def loadWeights(self):
+		self.initWeights()
+
+		mDict = sio.loadmat(self.name+".mat")
+		#exit()
+		self.W.data = mDict['W']
+		self.B.data = mDict['B']
+		#self.W.mPrint();
+		#exit()
 
 	def forward(self, X):		
 		self.outData = self.W * X + self.B;
@@ -36,14 +55,30 @@ class NNInnerProduct(NNLayer):
 		#exit()
 		return dGlobalNew
 
+	def restorePivot(self):
+		print "================restoring Pivot===========>>>>>>"
+		#self.W.mPrint()
+		self.W.data = np.copy(self.pW.data)
+		self.B.data = np.copy(self.pB.data)
+		#self.W.mPrint()
+		#exit()
+
+
+
 	def gradientDescent(self, alpha):
 		W = self.W.data;
 		B = self.B.data;
 		#print self.dW.data;
 		#print type(self.dW.data)
 		
+		self.pW.data = np.copy(self.W.data)
+		self.pB.data = np.copy(self.B.data)
+
 		#exit()
 		W = W - alpha * self.dW.data;
 		B = B - alpha * self.dB.data;
 		self.W.data = W;
 		self.B.data = B;
+
+
+
