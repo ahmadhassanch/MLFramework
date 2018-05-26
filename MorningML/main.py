@@ -142,7 +142,47 @@ def main1():
 	#layer1.outData.mPrint();
 
 
+def main2():
 
-main1();
+	np.random.seed(1)
+	# Example of a picture
+	train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
+
+	train_set_x_flatten = train_set_x_orig.reshape(train_set_x_orig.shape[0], -1).T
+	test_set_x_flatten = test_set_x_orig.reshape(test_set_x_orig.shape[0], -1).T
+	train_set_x = train_set_x_flatten / 255.
+	test_set_x = test_set_x_flatten / 255.
+
+	index = 25
+	#plt.imshow(train_set_x_orig[index])
+	print ("y = " + str(train_set_y[:,index]) + ", it's a '" + classes[np.squeeze(train_set_y[:,index])].decode("utf-8") +  "' picture.")
+	#plt.show()
+	#pause
+
+
+	#refX, refY = genAndSaveData(numInputs, m)	
+	#refX, refY = loadData()	
+	#[7,5,1]
+	net    = NNetwork();
+	layer0 = NNInput(net, 'Input0', 12288);
+	
+	#layer1 = NNInnerProduct(net, 'InnerProduct1', 20);
+	#layer2 = NNRelu(net, 'NNRelu1', 20);
+	
+	layer1 = NNInnerProduct(net, 'InnerProduct2', 7);
+	layer2 = NNRelu(net, 'NNRelu2', 7);
+
+	#layer1 = NNInnerProduct(net, 'InnerProduct3', 3);
+	#layer2 = NNRelu(net, 'NNRelu3', 3);
+
+	layer3 = NNInnerProduct(net, 'InnerProduct4', 1);
+	layer4 = NNSigmoid(net, 'NNSigmoid4', 1);
+	
+	trainNetwork(net, 2500, train_set_x, train_set_y);
+	testNetwork(net, train_set_x, train_set_y);
+	testNetwork(net, test_set_x, test_set_y);
+
+
+main2();
 
 
