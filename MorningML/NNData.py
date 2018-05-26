@@ -7,7 +7,9 @@ class NNData():
 		self.data = np.zeros((rows, columns));
 		
 	def rand(self):
-		self.data = (np.random.randn(self.rows, self.columns) - 0.0)*0.01;
+
+		self.data = (np.random.randn(self.rows, self.columns))*0.001;
+		#self.data = (np.random.randn(self.rows, self.columns) - 0.0)/np.sqrt(self.columns);
 
 	def ones(self):
 		self.data = np.ones((self.rows, self.columns))

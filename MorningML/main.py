@@ -37,7 +37,7 @@ def loadData():
 	mDict = sio.loadmat("refData")
 	return mDict['refX'], mDict['refY']
 
-def trainNetwork(net, nIterations, train_set_x, train_set_y):
+def trainNetwork(net, nIterations, alpha, train_set_x, train_set_y):
 	numInputs = train_set_x.shape[0];
 	m = train_set_x.shape[1];
 	refDataX = NNData(numInputs, m);
@@ -54,13 +54,15 @@ def trainNetwork(net, nIterations, train_set_x, train_set_y):
 	'''
 	net.initWeights();
 	JArr = [];
-	alpha = 0.0075;
+	#
 
 
 	for i in range(nIterations):
 		print '==============================forward====== ', i
 		net.forward(refDataX);
 		y, yHat, loss, J = net.computeLoss(refDataY)
+		if(i%100 ==0):
+			print yHat
 		
 		JArr.append(J);
 		net.backprop(y, yHat);
@@ -68,8 +70,8 @@ def trainNetwork(net, nIterations, train_set_x, train_set_y):
 		#exit()
 
 
-	#plt.plot(JArr)
-	#plt.show()
+	plt.plot(JArr)
+	plt.show()
 	net.saveWeights();
 
 def testNetwork(net, test_set_x, test_set_y):
@@ -86,6 +88,7 @@ def testNetwork(net, test_set_x, test_set_y):
 	y = test_set_y;
 	yHat = net.forward(nnTestX);
 	
+	#rint yHat
 	#y, yHat, loss = net.computeLoss(refDataY)
 
 	yHat[yHat>0.5] = 1.0;
@@ -96,7 +99,7 @@ def testNetwork(net, test_set_x, test_set_y):
 
 
 def main1():
-
+	alpha = 0.0075;
 	np.random.seed(1)
 	# Example of a picture
 	train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
@@ -131,7 +134,7 @@ def main1():
 	layer3 = NNInnerProduct(net, 'InnerProduct4', 1);
 	layer4 = NNSigmoid(net, 'NNSigmoid4', 1);
 	
-	trainNetwork(net, 2500, train_set_x, train_set_y);
+	trainNetwork(net, 5000, alpha, train_set_x, train_set_y);
 	testNetwork(net, train_set_x, train_set_y);
 	testNetwork(net, test_set_x, test_set_y);
 
@@ -143,8 +146,8 @@ def main1():
 
 
 def main2():
-
-	np.random.seed(1)
+	alpha = 0.0075;
+	np.random.seed(3)
 	# Example of a picture
 	train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
 
@@ -160,25 +163,25 @@ def main2():
 	#pause
 
 
-	#refX, refY = genAndSaveData(numInputs, m)	
-	#refX, refY = loadData()	
+	#refX, refY = genAndSaveData(numInputs, m)
+	#refX, refY = loadData()
 	#[7,5,1]
 	net    = NNetwork();
 	layer0 = NNInput(net, 'Input0', 12288);
-	
-	#layer1 = NNInnerProduct(net, 'InnerProduct1', 20);
-	#layer2 = NNRelu(net, 'NNRelu1', 20);
-	
-	layer1 = NNInnerProduct(net, 'InnerProduct2', 7);
-	layer2 = NNRelu(net, 'NNRelu2', 7);
 
-	#layer1 = NNInnerProduct(net, 'InnerProduct3', 3);
-	#layer2 = NNRelu(net, 'NNRelu3', 3);
+	layer1 = NNInnerProduct(net, 'InnerProduct1', 20);
+	layer2 = NNRelu(net, 'NNRelu1', 20);
 
-	layer3 = NNInnerProduct(net, 'InnerProduct4', 1);
-	layer4 = NNSigmoid(net, 'NNSigmoid4', 1);
+	layer3 = NNInnerProduct(net, 'InnerProduct2', 7);
+	layer4 = NNRelu(net, 'NNRelu2', 7);
+
+	layer5 = NNInnerProduct(net, 'InnerProduct3', 5);
+	layer6 = NNRelu(net, 'NNRelu3', 5);
+
+	layer7 = NNInnerProduct(net, 'InnerProduct4', 1);
+	layer8 = NNSigmoid(net, 'NNSigmoid4', 1);
 	
-	trainNetwork(net, 2500, train_set_x, train_set_y);
+	trainNetwork(net, 20, alpha, train_set_x, train_set_y);
 	testNetwork(net, train_set_x, train_set_y);
 	testNetwork(net, test_set_x, test_set_y);
 

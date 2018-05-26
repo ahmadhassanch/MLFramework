@@ -12,6 +12,7 @@ class NNInnerProduct(NNLayer):
 		self.W = NNData(self.nlOut, self.nlIn);
 		self.B = NNData(self.nlOut, 1);
 		self.W.rand();
+		self.B.rand();
 		#self.W.ones();
 		#self.B.data[0,0]=10;
 		#print self.W.data.shape;
@@ -23,6 +24,7 @@ class NNInnerProduct(NNLayer):
 		
 		#self.W.mPrint();
 		#self.B.mPrint();
+		#exit()
 
 	def saveWeights(self):
 		sio.savemat(self.name+".mat", {'W':self.W.data, 'B':self.B.data})
