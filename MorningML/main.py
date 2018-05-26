@@ -37,7 +37,7 @@ def loadData():
 	mDict = sio.loadmat("refData")
 	return mDict['refX'], mDict['refY']
 
-def trainNetwork(net, train_set_x, train_set_y):
+def trainNetwork(net, nIterations, train_set_x, train_set_y):
 	numInputs = train_set_x.shape[0];
 	m = train_set_x.shape[1];
 	refDataX = NNData(numInputs, m);
@@ -57,7 +57,7 @@ def trainNetwork(net, train_set_x, train_set_y):
 	alpha = 0.0075;
 
 
-	for i in range(3000):
+	for i in range(nIterations):
 		print '==============================forward====== ', i
 		net.forward(refDataX);
 		y, yHat, loss, J = net.computeLoss(refDataY)
@@ -91,11 +91,11 @@ def testNetwork(net, test_set_x, test_set_y):
 	yHat[yHat>0.5] = 1.0;
 	yHat[yHat<=0.5] = 0.0;
 	err = np.sum(np.abs(y-yHat))
-	print "NumErrors", err, err/m*100
+	print "NumErrors", err, err/m*100, 100 - err/m*100
 
 
 
-def main():
+def main1():
 
 	np.random.seed(1)
 	# Example of a picture
@@ -131,7 +131,7 @@ def main():
 	layer3 = NNInnerProduct(net, 'InnerProduct4', 1);
 	layer4 = NNSigmoid(net, 'NNSigmoid4', 1);
 	
-	trainNetwork(net, train_set_x, train_set_y);
+	trainNetwork(net, 2500, train_set_x, train_set_y);
 	testNetwork(net, train_set_x, train_set_y);
 	testNetwork(net, test_set_x, test_set_y);
 
@@ -142,6 +142,7 @@ def main():
 	#layer1.outData.mPrint();
 
 
-main();
+
+main1();
 
 

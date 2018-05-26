@@ -1,0 +1,18 @@
+    s = 1/(1+np.exp(-x))
+    ds = s*(1-s)
+
+v = image.reshape((image.shape[0]*image.shape[1]*image.shape[2],1))
+  
+
+
+np.linalg.norm(x,axis=1,keepdims=True) #sqrt of sum of squares of row of matrix
+
+
+m_train = train_x_orig.shape[0]
+num_px = train_x_orig.shape[1]    #number of pixels in image (width)
+m_test = test_x_orig.shape[0]
+
+
+Deep Learning Week 2 (Assignment 4)
+A = sigmoid(np.dot(w.T, X) + b)  # compute activation
+cost = (- 1 / m) * np.sum(Y * np.log(A) + (1 - Y) * (np.log(1 - A)))  # compute cost
