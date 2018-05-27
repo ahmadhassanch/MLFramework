@@ -41,7 +41,7 @@ class NNetwork:
 		m = y.shape[1];
 		#print m
 		J= 1.0/m*np.sum(loss);
-		print "J =================================================== J = ", J
+		#print "J =================================================== J = ", J
 		#print loss.shape 
 		return y, yHat, loss, J
 		

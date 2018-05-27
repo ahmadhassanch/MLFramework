@@ -44,25 +44,17 @@ def trainNetwork(net, nIterations, alpha, train_set_x, train_set_y):
 	refDataY = NNData(1, m);
 	refDataX.data = train_set_x;
 	refDataY.data = train_set_y;
-	'''
-	J =================================================== J =  0.627797307324
-	J =================================================== J =  1.01246567508
-	================restoring Pivot===========>>>>>>
-	================restoring Pivot===========>>>>>>
-	J =================================================== J =  0.649202240636
 
-	'''
 	net.initWeights();
 	JArr = [];
-	#
 
 
 	for i in range(nIterations):
-		print '==============================forward====== ', i
 		net.forward(refDataX);
 		y, yHat, loss, J = net.computeLoss(refDataY)
-		if(i%100 ==0):
-			print yHat
+		#if(i%1 == 0):
+		print '==============================forward====== ', i, J
+			#print yHat
 		
 		JArr.append(J);
 		net.backprop(y, yHat);
@@ -88,13 +80,10 @@ def testNetwork(net, test_set_x, test_set_y):
 	y = test_set_y;
 	yHat = net.forward(nnTestX);
 	
-	#rint yHat
-	#y, yHat, loss = net.computeLoss(refDataY)
-
 	yHat[yHat>0.5] = 1.0;
 	yHat[yHat<=0.5] = 0.0;
 	err = np.sum(np.abs(y-yHat))
-	print "NumErrors", err, err/m*100, 100 - err/m*100
+	print "NumErrors", err, err/m*100, " Correct Pred Percent = ", 100 - err/m*100
 
 
 
@@ -134,7 +123,7 @@ def main1():
 	layer3 = NNInnerProduct(net, 'InnerProduct4', 1);
 	layer4 = NNSigmoid(net, 'NNSigmoid4', 1);
 	
-	trainNetwork(net, 5000, alpha, train_set_x, train_set_y);
+	trainNetwork(net, 2500, alpha, train_set_x, train_set_y);
 	testNetwork(net, train_set_x, train_set_y);
 	testNetwork(net, test_set_x, test_set_y);
 
@@ -186,6 +175,6 @@ def main2():
 	testNetwork(net, test_set_x, test_set_y);
 
 
-main2();
+main1();
 
 
