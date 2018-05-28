@@ -35,12 +35,13 @@ def trainNetwork(net, nIterations, alpha, train_set_x, train_set_y):
 
 	net.initWeights();
 
-	net.gradientCheck(refDataX, refDataY)
-
+	net.gradientCheck(alpha, refDataX, refDataY)
+	exit()
 	JArr = [];
 	prevJ = 1e6;
 	for i in range(nIterations):
 		net.forward(refDataX);
+		
 		y, yHat, loss, J = net.computeLoss(refDataY)
 		alpha = heardEnter(alpha)
 		if(i%100 == 0):
@@ -179,6 +180,6 @@ def main2():
 	testNetwork(net, test_set_x, test_set_y);
 
 np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)})
-main2();
+main1();
 
 

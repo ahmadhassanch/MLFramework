@@ -89,45 +89,57 @@ class NNetwork:
 			layer.debugInfo();
 		self.yRefData.mPrintSTD()
 
-	def gradientCheck(self, refDataX, refDataY):
-		epsilon = 1e-3;
+	def gradientCheck(self, alpha, refDataX, refDataY):
+		eps = 1e-3;
 		for layer in self.layers:
 
 			if(layer.type != "InnerProduct"): continue;
-			print ">>>>>>>>>>>", layer.name
 			W = layer.W.data;
 			dJW = layer.dW.data;
+			print ">>>>>>>>>>>", layer.name, W.shape
+
+
 			for i in range(W.shape[0]):
+				print "i = ", i
 				for j in range(W.shape[1]):
-					print i, j
+					#print i, j
 					w = W[i, j];
 
 					# Run Foward twice for computing derivative (+/-)
-					W[i, j] = w + epsilon;
-
+					W[i, j] = w + eps;
+					#print "W[i,j]", W[i,j]
 					self.forward(refDataX);
 					y, yHat, loss, Jp = self.computeLoss(refDataY)
 
-					W[i, j] = w - epsilon;
+					W[i, j] = w - eps;
+					#print "W[i,j]", W[i,j]
 					self.forward(refDataX);
 					y, yHat, loss, Jm = self.computeLoss(refDataY)
 
 					# Computing numerical derivate
-					dJw1 = (Jp - Jm) / (2*epsilon)
-
+					dJw1 = (Jp - Jm) / (2*eps)
+					#print Jp, Jm, "J", dJw1
+					#exit()
 					# Restore weight and Forward/Backward and get dW
 					W[i, j] = w
 					self.forward(refDataX);
-					y, yHat, loss, Jm = self.computeLoss(refDataY)
+					y, yHat, loss, J = self.computeLoss(refDataY)
 					self.backprop(y, yHat);
-											
-					dJw2 = dJW[i, j]
+						
+					dJw2 = layer.dW.data[i,j]
+					
 					diff = abs(dJw2 - dJw1);
-					if(diff > 1e-10): 
-						print "Error ", dJw1, dJw2, diff; 
+						
+					if(diff > 1e-8): 
+						#pass
+						print "Error ", i, j, dJw1, dJw2, diff; 
 						exit()
-
-
+					else:
+						print "OK ", i, j, dJw1, dJw2, diff; 
+						
+	def restoreDJW(self):
+		for layer in self.layers:
+			layer.restoreDJW()
 
 	def mPrint(self):
 		print 'And I have', len(self.layers), 'layers'

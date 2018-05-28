@@ -54,7 +54,10 @@ class NNInnerProduct(NNLayer):
 		W = self.W.data;
 		dGlobalNew = np.matmul(W.T, dGlobal);
 		self.dW.data = (1.0/m)*np.matmul(dGlobal, self.X.T)
-		
+		#print self.name
+		#print self.dW.data.shape
+		#print self.dW.data;
+
 		self.dB.data = (1.0/m)*np.sum(dGlobal, axis=1, keepdims=True);
 		#print type(self.dB.data)
 		#exit()
@@ -67,8 +70,6 @@ class NNInnerProduct(NNLayer):
 		self.B.data = np.copy(self.pB.data)
 		#self.W.mPrint()
 		#exit()
-
-
 
 	def gradientDescent(self, alpha):
 		W = self.W.data;
