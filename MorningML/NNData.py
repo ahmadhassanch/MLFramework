@@ -8,8 +8,8 @@ class NNData():
 		
 	def rand(self):
 
-		self.data = (np.random.randn(self.rows, self.columns))*0.01;
-		#self.data = (np.random.randn(self.rows, self.columns) - 0.0)/np.sqrt(self.columns);
+		#self.data = (np.random.randn(self.rows, self.columns))*.01;
+		self.data = (np.random.randn(self.rows, self.columns))/np.sqrt(self.columns);
 
 	def ones(self):
 		self.data = np.ones((self.rows, self.columns))
@@ -45,4 +45,9 @@ class NNData():
 		print self.data
 		#print 'test22'
 		#exit()
+
+	def mPrintSTD(self):
+		#print 'test12'
+		print "Data Mean/STD:", np.abs(self.data).mean(), self.data.std()
+		#print self.data
 

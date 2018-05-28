@@ -6,6 +6,7 @@ class NNLayer:
 		self.name = name;
 		self.network = network
 		self.nlOut = nlOut
+		self.type = "BaseLayer"
 
 		if len(network.layers)>0:
 			nlIn = network.layers[-1].nlOut
@@ -33,6 +34,8 @@ class NNLayer:
 	def restorePivot(self):
 		pass
 
+	def debugInfo(self):
+		pass
 
 
 	def forward(self, inData):

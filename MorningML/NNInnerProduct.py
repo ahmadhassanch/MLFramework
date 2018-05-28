@@ -6,6 +6,7 @@ import scipy.io as sio
 class NNInnerProduct(NNLayer):
 	def __init__(self, network, name, nlOut):
 		NNLayer.__init__(self, network, name, nlOut)
+		self.type = "InnerProduct"
 
 	def initWeights(self):
 		print self.name, "Initializing Weights, biases"
@@ -44,6 +45,7 @@ class NNInnerProduct(NNLayer):
 	def forward(self, X):		
 		self.outData = self.W * X + self.B;
 		#self.W.mPrint()
+
 		self.X = X.data;
 		return self.outData
 
@@ -78,10 +80,21 @@ class NNInnerProduct(NNLayer):
 		self.pB.data = np.copy(self.B.data)
 
 		#exit()
+		#W = W - np.clip(np.sign(self.dW.data),-alpha,alpha);
+		#B = B - np.clip(np.sign(self.dB.data), -alpha, alpha);
+	
 		W = W - alpha * self.dW.data;
 		B = B - alpha * self.dB.data;
 		self.W.data = W;
 		self.B.data = B;
 
 
+	def debugInfo(self):
+		print self.name
+		#self.W.mPrintSTD()
+		#if(self.name == "InnerProductFinal"):
+		#	self.outData.mPrint();
 
+		self.W.mPrintSTD()
+		#self.B.mPrintSTD()
+		self.outData.mPrintSTD();

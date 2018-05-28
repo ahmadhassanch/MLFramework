@@ -21,6 +21,11 @@ class NNSigmoid(NNActivation):
 		dGlobalNew = dGlobal * y * (1-y); #element by element mult since np.array 
 		return dGlobalNew
 
+	def debugInfo(self):
+		pass
+		print self.name
+		self.outData.mPrintSTD();
+
 
 class NNRelu(NNActivation):
 			

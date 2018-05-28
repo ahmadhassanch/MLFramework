@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import h5py
 from NNetwork import NNetwork
 from NNData import NNData
 from NNLayer import NNInput
@@ -8,34 +7,23 @@ from NNInnerProduct import NNInnerProduct
 from NNActivation import NNRelu
 from NNActivation import NNSigmoid
 import scipy.io as sio
+from ioUtils import * 
 
+import sys
+import select
 
-def load_dataset():
-    train_dataset = h5py.File('datasets/train_catvnoncat.h5', "r")
-    train_set_x_orig = np.array(train_dataset["train_set_x"][:]) # your train set features
-    train_set_y_orig = np.array(train_dataset["train_set_y"][:]) # your train set labels
-
-    test_dataset = h5py.File('datasets/test_catvnoncat.h5', "r")
-    test_set_x_orig = np.array(test_dataset["test_set_x"][:]) # your test set features
-    test_set_y_orig = np.array(test_dataset["test_set_y"][:]) # your test set labels
-
-    classes = np.array(test_dataset["list_classes"][:]) # the list of classes
-    
-    train_set_y_orig = train_set_y_orig.reshape((1, train_set_y_orig.shape[0]))
-    test_set_y_orig = test_set_y_orig.reshape((1, test_set_y_orig.shape[0]))
-    
-    return train_set_x_orig, train_set_y_orig, test_set_x_orig, test_set_y_orig, classes
-
-
-def genAndSaveData(numIn, m):
-	refX = (np.random.rand(numIn,m)*10).round();
-	refY = (np.random.rand(1,m)*1).round();
-	sio.savemat("refData", {'refX':refX, 'refY':refY})
-	return refX, refY
-
-def loadData():
-	mDict = sio.loadmat("refData")
-	return mDict['refX'], mDict['refY']
+def heardEnter(alpha):
+    i,o,e = select.select([sys.stdin],[],[],0.0001)
+    for s in i:
+        if s == sys.stdin:
+			print "Alpha = ", alpha, " Enter new Alpha";
+			input2 = sys.stdin.readline()
+			scale = raw_input("Enter NOw:");
+			scale = float(scale)
+			alpha = alpha * scale;
+			print "heardEnter", input2, scale, alpha
+			
+    return alpha
 
 def trainNetwork(net, nIterations, alpha, train_set_x, train_set_y):
 	numInputs = train_set_x.shape[0];
@@ -46,25 +34,37 @@ def trainNetwork(net, nIterations, alpha, train_set_x, train_set_y):
 	refDataY.data = train_set_y;
 
 	net.initWeights();
+
+	net.gradientCheck(refDataX, refDataY)
+
 	JArr = [];
-
-
+	prevJ = 1e6;
 	for i in range(nIterations):
 		net.forward(refDataX);
 		y, yHat, loss, J = net.computeLoss(refDataY)
-		#if(i%1 == 0):
-		print '==============================forward====== ', i, J
+		alpha = heardEnter(alpha)
+		if(i%100 == 0):
+			print '==============================forward====== ', i, J
 			#print yHat
-		
+			net.debugInfo()
+		#if(i==1200):
+		# 	alpha = alpha/4
+		#if(i>300):
 		JArr.append(J);
+
 		net.backprop(y, yHat);
 		net.gradientDescent(alpha);
 		#exit()
+			#if(prevJ - J)/prevJ *100 < 5:
+		 	#	alpha = alpha/2
+			#	print '>>> changing alpa ', i
+			#prevJ = J
 
 
 	plt.plot(JArr)
 	plt.show()
 	net.saveWeights();
+
 
 def testNetwork(net, test_set_x, test_set_y):
 	numInputs = test_set_x.shape[0];
@@ -89,6 +89,11 @@ def testNetwork(net, test_set_x, test_set_y):
 
 def main1():
 	alpha = 0.0075;
+	#
+	#alpha = 0.0001;
+	#==============================forward======  0 0.69304973566
+	#==============================forward======  100 0.646432095343
+
 	np.random.seed(1)
 	# Example of a picture
 	train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
@@ -110,20 +115,14 @@ def main1():
 	#[7,5,1]
 	net    = NNetwork();
 	layer0 = NNInput(net, 'Input0', 12288);
-	
-	#layer1 = NNInnerProduct(net, 'InnerProduct1', 20);
-	#layer2 = NNRelu(net, 'NNRelu1', 20);
-	
-	layer1 = NNInnerProduct(net, 'InnerProduct2', 7);
-	layer2 = NNRelu(net, 'NNRelu2', 7);
+		
+	layer1 = NNInnerProduct(net, 'InnerProduct1', 7);
+	layer2 = NNRelu(net, 'NNRelu1', 7);
 
-	#layer1 = NNInnerProduct(net, 'InnerProduct3', 3);
-	#layer2 = NNRelu(net, 'NNRelu3', 3);
-
-	layer3 = NNInnerProduct(net, 'InnerProduct4', 1);
-	layer4 = NNSigmoid(net, 'NNSigmoid4', 1);
+	layer3 = NNInnerProduct(net, 'InnerProductFinal', 1);
+	layer4 = NNSigmoid(net, 'NNSigmoidFinal', 1);
 	
-	trainNetwork(net, 2500, alpha, train_set_x, train_set_y);
+	trainNetwork(net, 3500, alpha, train_set_x, train_set_y);
 	testNetwork(net, train_set_x, train_set_y);
 	testNetwork(net, test_set_x, test_set_y);
 
@@ -135,8 +134,13 @@ def main1():
 
 
 def main2():
+	#Cost after iteration 0: 0.771749
+	#Cost after iteration 100: 0.672053
+	#==============================forward======  0 0.771749328424
+	#==============================forward======  100 0.672053440082
+
 	alpha = 0.0075;
-	np.random.seed(3)
+	np.random.seed(1)
 	# Example of a picture
 	train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_dataset()
 
@@ -167,14 +171,14 @@ def main2():
 	layer5 = NNInnerProduct(net, 'InnerProduct3', 5);
 	layer6 = NNRelu(net, 'NNRelu3', 5);
 
-	layer7 = NNInnerProduct(net, 'InnerProduct4', 1);
-	layer8 = NNSigmoid(net, 'NNSigmoid4', 1);
+	layer7 = NNInnerProduct(net, 'InnerProductFinal', 1);
+	layer8 = NNSigmoid(net, 'NNSigmoidFinal', 1);
 	
-	trainNetwork(net, 20, alpha, train_set_x, train_set_y);
+	trainNetwork(net, 2500, alpha, train_set_x, train_set_y);
 	testNetwork(net, train_set_x, train_set_y);
 	testNetwork(net, test_set_x, test_set_y);
 
-
-main1();
+np.set_printoptions(formatter={'float': lambda x: "{0:0.5f}".format(x)})
+main2();
 
 
